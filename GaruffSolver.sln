@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GaruffSolver", "GaruffSolver\GaruffSolver.csproj", "{69B523C2-CB4C-4A55-BEB1-105981F23F73}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GaruffSolver.Test", "GaruffSolver.Test\GaruffSolver.Test.csproj", "{264C6D8A-0D59-4B5A-9EA4-C6C8DE89B046}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{69B523C2-CB4C-4A55-BEB1-105981F23F73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69B523C2-CB4C-4A55-BEB1-105981F23F73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69B523C2-CB4C-4A55-BEB1-105981F23F73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69B523C2-CB4C-4A55-BEB1-105981F23F73}.Release|Any CPU.Build.0 = Release|Any CPU
+		{264C6D8A-0D59-4B5A-9EA4-C6C8DE89B046}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{264C6D8A-0D59-4B5A-9EA4-C6C8DE89B046}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{264C6D8A-0D59-4B5A-9EA4-C6C8DE89B046}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{264C6D8A-0D59-4B5A-9EA4-C6C8DE89B046}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
