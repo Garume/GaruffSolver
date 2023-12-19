@@ -1,4 +1,6 @@
 ﻿using GaruffSolver.CNF;
+using GaruffSolver.Solver;
+using GaruffSolver.Solver.DPLL;
 using GaruffSolver.Test.Testcases;
 
 namespace GaruffSolver.Test.DPLL;
@@ -6,29 +8,25 @@ namespace GaruffSolver.Test.DPLL;
 public class DpllSolverTestWithTestCase
 {
     private readonly CnfReader _reader = new();
-    private readonly DpllSolver _solver = new();
+    private readonly GaruffSolver _solver = new(new SolveBuilder(new DpllSolver()));
 
     [TestCaseSource(typeof(TestcaseUtility), nameof(TestcaseUtility.Uf2091Cases))]
-    public void ReadFileSolve_ReturnTrueTest(string fileName)
+    public void ReadFileSolve_ReturnTrueTest(string filePath)
     {
-        var cnfFilePath = TestcaseUtility.GetTestcasePath("uf20-91", fileName);
-        var cnf = _reader.ReadFromFile(cnfFilePath);
-        var isSatisfiable = _solver.Solve(cnf);
+        var cnf = _reader.ReadFromFile(filePath);
+        var model = _solver.Solve(cnf);
+        var verify = model.Verify(cnf);
 
-        Console.WriteLine($"Is Satisfiable: {isSatisfiable}");
-
-        Assert.That(isSatisfiable, Is.True);
+        Assert.That(model.IsSatisfied, Is.True);
+        Assert.That(verify, Is.True);
     }
 
     [TestCaseSource(typeof(TestcaseUtility), nameof(TestcaseUtility.Uf502181000Cases))]
-    public void ReadFileSolve_ReturnFalseTest(string fileName)
+    public void ReadFileSolve_ReturnFalseTest(string filePath)
     {
-        var cnfFilePath = TestcaseUtility.GetTestcasePath("UUF50.218.1000", fileName);
-        var cnf = _reader.ReadFromFile(cnfFilePath);
-        var isSatisfiable = _solver.Solve(cnf);
+        var cnf = _reader.ReadFromFile(filePath);
+        var model = _solver.Solve(cnf);
 
-        Console.WriteLine($"Is Satisfiable: {isSatisfiable}");
-
-        Assert.That(isSatisfiable, Is.False);
+        Assert.That(model.IsSatisfied, Is.False);
     }
 }

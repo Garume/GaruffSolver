@@ -1,7 +1,22 @@
 ﻿namespace GaruffSolver.Values;
 
-public record Literal(string Name, bool IsPositive)
+public record Literal(string Name, bool IsPositive) : IComparable<Literal>
 {
+    public int CompareTo(Literal? other)
+    {
+        if (ReferenceEquals(this, other)) return 0;
+        if (ReferenceEquals(null, other)) return 1;
+        var nameComparison = string.Compare(Name, other.Name, StringComparison.Ordinal);
+        if (nameComparison != 0) return nameComparison;
+        return IsPositive.CompareTo(other.IsPositive);
+    }
+
+    public virtual bool Equals(Literal? other)
+    {
+        return other != null && string.Equals(Name, other.Name, StringComparison.Ordinal) &&
+               IsPositive == other.IsPositive;
+    }
+
     public Literal Negative()
     {
         return this with { IsPositive = !IsPositive };
@@ -17,16 +32,49 @@ public record Literal(string Name, bool IsPositive)
         return (IsPositive ? "" : "-") + Name;
     }
 
-    public bool ConflictsWith(Literal literal)
+
+    private bool ConflictsWith(Literal literal)
     {
-        return string.Equals(Name, literal.Name) && IsPositive != literal.IsPositive;
+        return string.Equals(Name, literal.Name, StringComparison.Ordinal) && IsPositive != literal.IsPositive;
     }
 
-    /// <summary>
-    ///     Checks whether this Literal conflicts with any of the given <paramref name="literals" />.
-    /// </summary>
     public bool IsPure(IEnumerable<Literal> literals)
     {
         return !literals.Any(ConflictsWith);
     }
+
+    public override int GetHashCode()
+    {
+        unchecked
+        {
+            return Name.GetHashCode() * IsPositive.GetHashCode();
+        }
+    }
+
+    #region operator overloads
+
+    public static implicit operator Clause(Literal literal)
+    {
+        var newClause = new Clause();
+        newClause.AddLast(literal);
+        return newClause;
+    }
+
+    public static Literal operator -(Literal literal)
+    {
+        return literal.Negative();
+    }
+
+
+    public static Clause operator |(Literal literal1, Literal literal2)
+    {
+        return new Clause(new[] { literal1, literal2 });
+    }
+
+    public static Formula operator &(Literal literal1, Literal literal2)
+    {
+        return new Formula(new[] { new Clause(new[] { literal1 }), new Clause(new[] { literal2 }) });
+    }
+
+    #endregion
 }

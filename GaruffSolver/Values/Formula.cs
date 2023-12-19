@@ -2,19 +2,15 @@
 
 namespace GaruffSolver.Values;
 
-public class Formula : HashSet<Clause>, IEquatable<Formula>
+public class Formula : LinkedList<Clause>, IEquatable<Formula>
 {
-    public Formula()
-    {
-    }
-
     public Formula(Cnf cnf)
     {
         foreach (var clause in cnf.Clauses)
         {
             var literals = new List<Literal>();
             foreach (var (name, isPositive) in clause) literals.Add(new Literal(name, isPositive));
-            Add(new Clause(literals));
+            AddLast(new Clause(literals));
         }
     }
 
@@ -27,6 +23,11 @@ public class Formula : HashSet<Clause>, IEquatable<Formula>
         return other != null && Count == other.Count && other.All(Contains);
     }
 
+    public IEnumerable<string> GetVariables()
+    {
+        return this.SelectMany(clause => clause).Select(literal => literal.Name).Distinct();
+    }
+
     public override bool Equals(object? obj)
     {
         return obj is Formula other && Equals(other);
@@ -34,46 +35,29 @@ public class Formula : HashSet<Clause>, IEquatable<Formula>
 
     public override int GetHashCode()
     {
-        var hash = new HashCode();
-        foreach (var clause in this) hash.Add(clause);
-
-        return hash.ToHashCode();
+        return this.Aggregate(397, (current, clause) => current ^ clause.GetHashCode());
     }
-
-    public Formula UnitPropagation()
-    {
-        var unitLiteral = this.Where(clause => clause.IsUnit).Select(x => x.Single()).FirstOrDefault();
-        if (unitLiteral == null) return this;
-
-        var unitClauses = new List<Clause>();
-
-        foreach (var clause in this)
-            if (clause.IsUnit || !clause.Contains(unitLiteral))
-            {
-                unitClauses.Add(new Clause(clause.Where(literal => literal != unitLiteral.Negative())));
-            }
-            else if (clause.Contains(unitLiteral))
-            {
-            }
-            else
-            {
-                unitClauses.Add(clause);
-            }
-
-        return new Formula(unitClauses);
-    }
-
-    public Formula PureLiteralElimination()
-    {
-        var literals = this.SelectMany(c => c).Distinct().ToArray();
-        var pureLiterals = literals.Where(l => l.IsPure(literals)).ToList();
-
-        return new Formula(this.Where(clause => !pureLiterals.Any(clause.Contains)));
-    }
-
 
     public override string ToString()
     {
         return string.Join(" ∧ ", this.Select(c => c.ToString()));
     }
+
+    #region operator overloads
+
+    public static Formula operator &(Formula formula, Literal literal)
+    {
+        var newFormula = new Formula(formula);
+        newFormula.AddLast(literal);
+        return newFormula;
+    }
+
+    public static Formula operator &(Formula formula, Clause clause)
+    {
+        var newFormula = new Formula(formula);
+        newFormula.AddLast(clause);
+        return newFormula;
+    }
+
+    #endregion
 }

@@ -1,18 +1,19 @@
 ﻿using GaruffSolver.CNF;
+using GaruffSolver.Solver;
+using GaruffSolver.Solver.DPLL;
 using GaruffSolver.Test.Testcases;
 
 namespace GaruffSolver.Test.CNF;
 
 public class CnfSimpleTest
 {
+    private readonly CnfReader _reader = new();
+
     [Test]
     public void ReadFileTest()
     {
-        var reader = new CnfReader();
         var cnfFilePath = TestcaseUtility.GetTestcasePath("Sample", "sample.cnf");
-        var cnf = reader.ReadFromFile(cnfFilePath);
-
-        Console.WriteLine(cnf);
+        var cnf = _reader.ReadFromFile(cnfFilePath);
 
         Assert.That(cnf.VariableCount, Is.EqualTo(5));
         Assert.That(cnf.ClausesCount, Is.EqualTo(3));
@@ -27,17 +28,26 @@ public class CnfSimpleTest
     }
 
     [Test]
-    public void ReadFileSolve_ReturnTrueTest()
+    public void ReadFileSolve_ReturnFalseTest()
     {
-        var reader = new CnfReader();
-        var cnfFilePath = TestcaseUtility.GetTestcasePath("Sample", "sample.cnf");
-        var cnf = reader.ReadFromFile(cnfFilePath);
+        var cnfFilePath = TestcaseUtility.GetTestcasePath("Sample", "sudoku.cnf");
+        var cnf = _reader.ReadFromFile(cnfFilePath);
 
-        var solver = new DpllSolver();
-        var isSatisfiable = solver.Solve(cnf);
+        Assert.That(cnf.VariableCount, Is.EqualTo(729));
+    }
 
-        Console.WriteLine($"Is Satisfiable: {isSatisfiable}");
+    [TestCase("sample.cnf")]
+    [TestCase("binary.cnf")]
+    public void ReadFileSolve_ReturnTrueTest(string fileName)
+    {
+        var cnfFilePath = TestcaseUtility.GetTestcasePath("Sample", fileName);
+        var cnf = _reader.ReadFromFile(cnfFilePath);
 
-        Assert.That(isSatisfiable, Is.True);
+        var solver = new GaruffSolver(new SolveBuilder(new DpllSolver()));
+        var model = solver.Solve(cnf);
+        var verifyModel = model.Verify(cnf);
+
+        Assert.That(model.IsSatisfied, Is.True);
+        Assert.That(verifyModel, Is.True);
     }
 }

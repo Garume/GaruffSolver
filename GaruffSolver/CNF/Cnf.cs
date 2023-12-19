@@ -1,11 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Text;
 
 namespace GaruffSolver.CNF;
 
 public record Cnf(int VariableCount, int ClausesCount, IEnumerable<Dictionary<string, bool>> Clauses)
 {
+    public IEnumerable<string> GetVariables()
+    {
+        return Clauses.SelectMany(clause => clause.Keys).Distinct();
+    }
+
     public override string ToString()
     {
         var sb = new StringBuilder();

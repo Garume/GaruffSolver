@@ -1,6 +1,6 @@
 ﻿namespace GaruffSolver.Values;
 
-public class Clause : HashSet<Literal>, IEquatable<Clause>
+public class Clause : LinkedList<Literal>, IEquatable<Clause>
 {
     public Clause() : this(new List<Literal>())
     {
@@ -25,12 +25,8 @@ public class Clause : HashSet<Literal>, IEquatable<Clause>
 
     public override int GetHashCode()
     {
-        var hash = new HashCode();
-        foreach (var literal in this) hash.Add(literal);
-
-        return hash.ToHashCode();
+        return this.Aggregate(397, (current, literal) => current ^ literal.GetHashCode());
     }
-
 
     public override string ToString()
     {
@@ -38,8 +34,19 @@ public class Clause : HashSet<Literal>, IEquatable<Clause>
         return $"( {value} )";
     }
 
-    public Clause Without(Literal literal)
+    #region operator overloads
+
+    public static Formula operator &(Clause clause1, Clause clause2)
     {
-        return new Clause(this.Where(x => x != literal));
+        return new Formula(new[] { clause1, clause2 });
     }
+
+    public static Clause operator |(Clause clause, Literal literal)
+    {
+        var newClause = new Clause(clause);
+        newClause.AddLast(literal);
+        return newClause;
+    }
+
+    #endregion
 }

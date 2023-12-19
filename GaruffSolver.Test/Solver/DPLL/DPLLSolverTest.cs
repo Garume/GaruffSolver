@@ -1,10 +1,12 @@
-﻿using GaruffSolver.Values;
+﻿using GaruffSolver.Solver;
+using GaruffSolver.Solver.DPLL;
+using GaruffSolver.Values;
 
 namespace GaruffSolver.Test.DPLL;
 
 public class DPLLSolverTest
 {
-    private readonly DpllSolver _solver = new();
+    private readonly GaruffSolver _solver = new(new SolveBuilder(new DpllSolver()));
     private readonly Literal A = Literal.Of("A");
     private readonly Literal B = Literal.Of("B");
     private readonly Literal C = Literal.Of("C");
@@ -13,86 +15,58 @@ public class DPLLSolverTest
     [Test]
     public void SatisfiableTest()
     {
-        var formula = new Formula(new List<Clause>
-        {
-            new(new List<Literal> { A, B }),
-            new(new List<Literal> { A.Negative(), C }),
-            new(new List<Literal> { B, C.Negative() })
-        });
+        var formula = (A | B) & (-A | C) & (B | -C);
 
-        var isSatisfiable = _solver.Solve(formula);
+        var model = _solver.Solve(formula);
+        var verify = model.Verify(formula);
 
-        Console.WriteLine($"Is Satisfiable: {isSatisfiable}");
-
-        Assert.That(isSatisfiable, Is.True);
+        Assert.That(model.IsSatisfied, Is.True);
+        Assert.That(verify, Is.True);
     }
 
     [Test]
     public void SameLiteralTest()
     {
-        var formula = new Formula(new List<Clause>
-        {
-            new(new List<Literal> { A, B }),
-            new(new List<Literal> { A.Negative(), C }),
-            new(new List<Literal> { C.Negative(), D }),
-            new(new List<Literal> { A })
-        });
+        var formula = (A | B) & (-A | C) & (-C | D) & A;
 
-        var isSatisfiable = _solver.Solve(formula);
+        var model = _solver.Solve(formula);
+        var verify = model.Verify(formula);
 
-        Console.WriteLine($"Is Satisfiable: {isSatisfiable}");
-
-        Assert.That(isSatisfiable, Is.True);
+        Assert.That(model.IsSatisfied, Is.True);
+        Assert.That(verify, Is.True);
     }
 
     [Test]
     public void DetectsUnsatisfiableFormulas()
     {
-        var formula = new Formula(new List<Clause>
-        {
-            new(new List<Literal> { A }),
-            new(new List<Literal> { A.Negative() })
-        });
+        var formula = A & -A;
 
-        var isSatisfiable = _solver.Solve(formula);
+        var model = _solver.Solve(formula);
 
-        Console.WriteLine($"Is Satisfiable: {isSatisfiable}");
-
-        Assert.That(isSatisfiable, Is.False);
+        Assert.That(model.IsSatisfied, Is.False);
     }
 
     [Test]
     public void UnsatisfiableFormulaTest()
     {
-        var formula = new Formula(new List<Clause>
-        {
-            new(new List<Literal> { A, B }),
-            new(new List<Literal> { A.Negative(), B.Negative() }),
-            new(new List<Literal> { A, B.Negative() }),
-            new(new List<Literal> { A.Negative(), B })
-        });
+        var formula = (A | B) & (-A | -B) & (A | -B) & (-A | B);
 
-        var isSatisfiable = _solver.Solve(formula);
+        var model = _solver.Solve(formula);
 
-        Console.WriteLine($"Is Satisfiable: {isSatisfiable}");
-
-        Assert.That(isSatisfiable, Is.False);
+        Assert.That(model.IsSatisfied, Is.False);
     }
 
     [Test]
     public void UnsatisfiableFormulaTest2()
     {
-        var formula = new Formula(new List<Clause>
-        {
-            new(new List<Literal> { A, B }),
-            new(new List<Literal> { A.Negative(), C }),
-            new(new List<Literal> { B, C.Negative() })
-        });
+        var formula = (A | B) & (-A | C) & (B | -C);
 
-        var isSatisfiable = _solver.Solve(formula);
+        var model = _solver.Solve(formula);
+        var verify = model.Verify(formula);
 
-        Console.WriteLine($"Is Satisfiable: {isSatisfiable}");
-
-        Assert.That(isSatisfiable, Is.True);
+        Assert.That(model.IsSatisfied, Is.True);
+        Assert.That(verify, Is.True);
     }
+    
+    
 }

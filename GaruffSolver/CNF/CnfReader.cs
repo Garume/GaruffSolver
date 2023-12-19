@@ -32,7 +32,7 @@ public class CnfReader
                 if (literal == "0") continue;
                 var isPositive = literal.StartsWith("-");
                 var name = isPositive ? literal[1..] : literal;
-                clause.Add(name, !isPositive);
+                clause[name] = !isPositive;
             }
 
             clauses.Add(clause);
