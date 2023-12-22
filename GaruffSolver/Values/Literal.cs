@@ -1,20 +1,27 @@
 ﻿namespace GaruffSolver.Values;
 
-public record Literal(string Name, bool IsPositive) : IComparable<Literal>
+public record struct Literal(string Name, bool IsPositive) : IComparable<Literal>
 {
-    public int CompareTo(Literal? other)
+    public int CompareTo(Literal other)
     {
-        if (ReferenceEquals(this, other)) return 0;
-        if (ReferenceEquals(null, other)) return 1;
         var nameComparison = string.Compare(Name, other.Name, StringComparison.Ordinal);
         if (nameComparison != 0) return nameComparison;
         return IsPositive.CompareTo(other.IsPositive);
     }
 
-    public virtual bool Equals(Literal? other)
+    public int CompareTo(Literal? other)
     {
-        return other != null && string.Equals(Name, other.Name, StringComparison.Ordinal) &&
-               IsPositive == other.IsPositive;
+        if (ReferenceEquals(this, other)) return 0;
+        if (ReferenceEquals(null, other)) return 1;
+        var nameComparison = string.Compare(Name, other.Value.Name, StringComparison.Ordinal);
+        if (nameComparison != 0) return nameComparison;
+        return IsPositive.CompareTo(other.Value.IsPositive);
+    }
+
+    public bool Equals(Literal? other)
+    {
+        return other != null && string.Equals(Name, other.Value.Name, StringComparison.Ordinal) &&
+               IsPositive == other.Value.IsPositive;
     }
 
     public Literal Negative()

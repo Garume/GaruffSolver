@@ -15,12 +15,12 @@ public sealed class DpllUnitPropagator : IUnitPropagator
 
         foreach (var clause in formula)
         {
-            var hasLiteral = clause.Contains(literal);
+            var hasLiteral = clause.Contains(literal.Value);
 
             if (clause.IsUnit || !hasLiteral)
             {
                 var tempLiteral = literal;
-                _unitClauses.Add(new Clause(clause.Where(literal => literal != tempLiteral.Negative())));
+                _unitClauses.Add(new Clause(clause.Where(literal => literal != tempLiteral.Value.Negative())));
             }
             else if (hasLiteral)
             {

@@ -16,7 +16,8 @@ public class Model : Dictionary<string, bool>
 
     public void Assign(string variable, bool value)
     {
-        this[variable] = value;
+        if (!string.IsNullOrEmpty(variable))
+            this[variable] = value;
     }
 
     public bool Verify(Cnf cnf)

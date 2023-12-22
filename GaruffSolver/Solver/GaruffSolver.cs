@@ -62,9 +62,9 @@ public class GaruffSolver
             _builder.UnitPropagation(ref result, out var unitLiteral);
             _builder.PureLiteralElimination(ref result, out var pureLiterals);
 
-            if (unitLiteral != null)
+            if (unitLiteral != null && unitLiteral.Value != default)
             {
-                model.Assign(unitLiteral.Name, unitLiteral.IsPositive);
+                model.Assign(unitLiteral.Value.Name, unitLiteral.Value.IsPositive);
                 isModified = true;
             }
 
