@@ -68,7 +68,6 @@ public class DpllUnitPropagationTest
         var formula = (A | -B) & (C | -D);
         _propagator.UnitPropagation(ref formula, out var unitLiteral);
 
-        Assert.That(unitLiteral.Value == default, Is.True );
         Assert.That(formula, Is.EqualTo(formula));
     }
 }

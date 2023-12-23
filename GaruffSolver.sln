@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GaruffSolver", "GaruffSolve
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GaruffSolver.Test", "GaruffSolver.Test\GaruffSolver.Test.csproj", "{264C6D8A-0D59-4B5A-9EA4-C6C8DE89B046}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GaruffSolver.Console", "GaruffSolver.Console\GaruffSolver.Console.csproj", "{7160EAF3-35A1-46FF-80EE-F3D9081C5E00}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{264C6D8A-0D59-4B5A-9EA4-C6C8DE89B046}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{264C6D8A-0D59-4B5A-9EA4-C6C8DE89B046}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{264C6D8A-0D59-4B5A-9EA4-C6C8DE89B046}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7160EAF3-35A1-46FF-80EE-F3D9081C5E00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7160EAF3-35A1-46FF-80EE-F3D9081C5E00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7160EAF3-35A1-46FF-80EE-F3D9081C5E00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7160EAF3-35A1-46FF-80EE-F3D9081C5E00}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

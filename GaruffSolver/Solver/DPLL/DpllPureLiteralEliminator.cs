@@ -11,14 +11,7 @@ public sealed class DpllPureLiteralEliminator : IPureLiteralEliminator
     public PureLiteralEliminatorFactory PureLiteralElimination =>
         (ref Formula formula, out HashSet<Literal> pureLiterals) =>
         {
-            _allLiterals.Clear();
-            foreach (var clause in formula) _allLiterals.AddRange(clause);
-
-            var pureLiteralsSet = new HashSet<Literal>();
-            foreach (var literal in _allLiterals)
-                if (literal.IsPure(_allLiterals))
-                    pureLiteralsSet.Add(literal);
-            pureLiterals = pureLiteralsSet;
+            pureLiterals = formula.GetPureLiterals();
 
             _newFormula.Clear();
             foreach (var clause in formula)
@@ -34,6 +27,7 @@ public sealed class DpllPureLiteralEliminator : IPureLiteralEliminator
                 if (!containsPureLiteral) _newFormula.Add(clause);
             }
 
-            formula = new Formula(_newFormula);
+            formula.Clear();
+            foreach (var clause in _newFormula) formula.AddLast(clause);
         };
 }

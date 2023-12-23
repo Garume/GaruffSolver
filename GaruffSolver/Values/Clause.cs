@@ -11,6 +11,7 @@ public class Clause : LinkedList<Literal>, IEquatable<Clause>
     }
 
     public bool IsUnit => Count == 1;
+
     public bool IsEmpty => Count == 0;
 
     public bool Equals(Clause? other)

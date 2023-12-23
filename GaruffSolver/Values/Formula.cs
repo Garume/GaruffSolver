@@ -23,6 +23,13 @@ public class Formula : LinkedList<Clause>, IEquatable<Formula>
         return other != null && Count == other.Count && other.All(Contains);
     }
 
+    public HashSet<Literal> GetPureLiterals()
+    {
+        var allLiterals = new List<Literal>();
+        foreach (var clause in this) allLiterals.AddRange(clause);
+        return allLiterals.Where(literal => literal.IsPure(allLiterals)).ToHashSet();
+    }
+
     public IEnumerable<string> GetVariables()
     {
         return this.SelectMany(clause => clause).Select(literal => literal.Name).Distinct();

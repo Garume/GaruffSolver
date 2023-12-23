@@ -6,7 +6,9 @@ public sealed class DpllUnitPropagator : IUnitPropagator
 {
     private readonly List<Clause> _unitClauses = new();
 
-    public UnitPropagatorFactory UnitPropagation => (ref Formula formula, out Literal? literal) =>
+    public UnitPropagatorFactory UnitPropagation => Propagation;
+
+    private void Propagation(ref Formula formula, out Literal? literal)
     {
         literal = formula.Where(clause => clause.IsUnit).Select(x => x.Single()).FirstOrDefault();
         if (literal == null) return;
@@ -15,12 +17,26 @@ public sealed class DpllUnitPropagator : IUnitPropagator
 
         foreach (var clause in formula)
         {
-            var hasLiteral = clause.Contains(literal.Value);
+            var hasLiteral = false;
 
-            if (clause.IsUnit || !hasLiteral)
+            foreach (var l in clause)
+                if (l.Equals(literal))
+                {
+                    hasLiteral = true;
+                    break;
+                }
+
+            if (clause.Count == 1 || !hasLiteral)
             {
-                var tempLiteral = literal;
-                _unitClauses.Add(new Clause(clause.Where(literal => literal != tempLiteral.Value.Negative())));
+                var emptyClause = new Clause();
+
+                foreach (var l in clause)
+                {
+                    var tempLiteral = literal.Value;
+                    if (!l.Equals(tempLiteral.Negative())) emptyClause.AddLast(l);
+                }
+
+                _unitClauses.Add(emptyClause);
             }
             else if (hasLiteral)
             {
@@ -31,6 +47,7 @@ public sealed class DpllUnitPropagator : IUnitPropagator
             }
         }
 
-        formula = new Formula(_unitClauses);
-    };
+        formula.Clear();
+        foreach (var clause in _unitClauses) formula.AddLast(clause);
+    }
 }

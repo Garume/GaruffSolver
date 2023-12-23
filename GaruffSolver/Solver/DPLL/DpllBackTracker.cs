@@ -12,7 +12,7 @@ public sealed class DpllBackTracker : IBackTracker
             newModel.Assign(literal.Name, value);
 
             var newFormula = new Formula(formula);
-            var newLiteral = new Literal(literal.Name, value);
+            var newLiteral = value ? literal : literal.Negative();
             newFormula.AddLast(new Clause(new[] { newLiteral }));
 
             var resultModel = solve(newFormula, newModel);

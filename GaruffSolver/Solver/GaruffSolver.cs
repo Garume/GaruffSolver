@@ -1,4 +1,5 @@
-﻿using GaruffSolver.CNF;
+﻿using System.Diagnostics;
+using GaruffSolver.CNF;
 using GaruffSolver.Solver;
 using GaruffSolver.Values;
 
@@ -16,7 +17,14 @@ public class GaruffSolver
     public Model Solve(Cnf cnf)
     {
         var formula = new Formula(cnf);
+
+        var sw = Stopwatch.StartNew();
+        sw.Start();
         var model = Solve(formula, new Model());
+        sw.Stop();
+
+        Console.WriteLine($"Elapsed: {sw.ElapsedMilliseconds}ms");
+
         model.Fill(cnf.GetVariables());
         return model;
     }
@@ -62,7 +70,7 @@ public class GaruffSolver
             _builder.UnitPropagation(ref result, out var unitLiteral);
             _builder.PureLiteralElimination(ref result, out var pureLiterals);
 
-            if (unitLiteral != null && unitLiteral.Value != default)
+            if (unitLiteral?.Name != null)
             {
                 model.Assign(unitLiteral.Value.Name, unitLiteral.Value.IsPositive);
                 isModified = true;

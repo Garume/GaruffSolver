@@ -1,7 +1,16 @@
 ﻿namespace GaruffSolver.Values;
 
-public record struct Literal(string Name, bool IsPositive) : IComparable<Literal>
+public struct Literal : IComparable<Literal>
 {
+    public string Name { get; }
+    public bool IsPositive { get; private init; }
+
+    public Literal(string name, bool isPositive)
+    {
+        Name = name;
+        IsPositive = isPositive;
+    }
+
     public int CompareTo(Literal other)
     {
         var nameComparison = string.Compare(Name, other.Name, StringComparison.Ordinal);
@@ -40,14 +49,18 @@ public record struct Literal(string Name, bool IsPositive) : IComparable<Literal
     }
 
 
-    private bool ConflictsWith(Literal literal)
-    {
-        return string.Equals(Name, literal.Name, StringComparison.Ordinal) && IsPositive != literal.IsPositive;
-    }
-
     public bool IsPure(IEnumerable<Literal> literals)
     {
-        return !literals.Any(ConflictsWith);
+        var isPure = true;
+        foreach (var literal in literals)
+        {
+            if (Name != literal.Name) continue;
+            if (IsPositive == literal.IsPositive) continue;
+            isPure = false;
+            break;
+        }
+
+        return isPure;
     }
 
     public override int GetHashCode()
