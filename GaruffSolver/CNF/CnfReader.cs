@@ -8,7 +8,7 @@ public class CnfReader
 
         var variableCount = 0;
         var clausesCount = 0;
-        var clauses = new List<Dictionary<string, bool>>();
+        var clauses = new List<Dictionary<ushort, bool>>();
 
         while (!reader.EndOfStream)
         {
@@ -26,12 +26,12 @@ public class CnfReader
             if (line.StartsWith("%")) break;
 
             var splitLine = line.Split(" ", StringSplitOptions.RemoveEmptyEntries);
-            var clause = new Dictionary<string, bool>();
+            var clause = new Dictionary<ushort, bool>();
             foreach (var literal in splitLine)
             {
                 if (literal == "0") continue;
                 var isPositive = literal.StartsWith("-");
-                var name = isPositive ? literal[1..] : literal;
+                var name = ushort.Parse(isPositive ? literal[1..] : literal);
                 clause[name] = !isPositive;
             }
 

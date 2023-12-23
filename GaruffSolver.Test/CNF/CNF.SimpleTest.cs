@@ -21,10 +21,10 @@ public class CnfSimpleTest
 
         var clauses = cnf.Clauses.ToList();
         Assert.That(clauses[0],
-            Is.EqualTo(new Dictionary<string, bool> { { "1", true }, { "5", false }, { "4", true } }));
+            Is.EqualTo(new Dictionary<ushort, bool> { { 1, true }, { 5, false }, { 4, true } }));
         Assert.That(clauses[1],
-            Is.EqualTo(new Dictionary<string, bool> { { "1", false }, { "5", true }, { "3", true }, { "4", true } }));
-        Assert.That(clauses[2], Is.EqualTo(new Dictionary<string, bool> { { "3", false }, { "4", false } }));
+            Is.EqualTo(new Dictionary<ushort, bool> { { 1, false }, { 5, true }, { 3, true }, { 4, true } }));
+        Assert.That(clauses[2], Is.EqualTo(new Dictionary<ushort, bool> { { 3, false }, { 4, false } }));
     }
 
     [Test]

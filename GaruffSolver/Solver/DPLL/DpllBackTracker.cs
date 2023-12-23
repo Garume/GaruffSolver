@@ -9,7 +9,7 @@ public sealed class DpllBackTracker : IBackTracker
         foreach (var value in new[] { true, false })
         {
             var newModel = new Model(model);
-            newModel.Assign(literal.Name, value);
+            newModel.Assign(literal.Value, value);
 
             var newFormula = new Formula(formula);
             var newLiteral = value ? literal : literal.Negative();

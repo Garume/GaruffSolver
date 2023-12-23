@@ -8,11 +8,11 @@ public class DpllPureLiteralEliminationTest
 {
     private readonly IPureLiteralEliminator _eliminator = new DpllPureLiteralEliminator();
 
-    private readonly Literal A = Literal.Of("A");
-    private readonly Literal B = Literal.Of("B");
-    private readonly Literal C = Literal.Of("C");
-    private readonly Literal D = Literal.Of("D");
-    private readonly Literal E = Literal.Of("E");
+    private readonly Literal A = Literal.Of(1);
+    private readonly Literal B = Literal.Of(2);
+    private readonly Literal C = Literal.Of(3);
+    private readonly Literal D = Literal.Of(4);
+    private readonly Literal E = Literal.Of(5);
 
     [Test]
     public void PureLiteralElimination_RemovesClausesWithPureLiterals()

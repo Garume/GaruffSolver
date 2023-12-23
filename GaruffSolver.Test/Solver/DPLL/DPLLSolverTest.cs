@@ -7,10 +7,10 @@ namespace GaruffSolver.Test.DPLL;
 public class DPLLSolverTest
 {
     private readonly GaruffSolver _solver = new(new SolveBuilder(new DpllSolver()));
-    private readonly Literal A = Literal.Of("A");
-    private readonly Literal B = Literal.Of("B");
-    private readonly Literal C = Literal.Of("C");
-    private readonly Literal D = Literal.Of("D");
+    private readonly Literal A = Literal.Of(1);
+    private readonly Literal B = Literal.Of(2);
+    private readonly Literal C = Literal.Of(3);
+    private readonly Literal D = Literal.Of(4);
 
     [Test]
     public void SatisfiableTest()
@@ -67,6 +67,4 @@ public class DPLLSolverTest
         Assert.That(model.IsSatisfied, Is.True);
         Assert.That(verify, Is.True);
     }
-    
-    
 }

@@ -2,7 +2,7 @@
 
 namespace GaruffSolver.Values;
 
-public class Model : Dictionary<string, bool>
+public class Model : Dictionary<ushort, bool>
 {
     public Model()
     {
@@ -14,10 +14,9 @@ public class Model : Dictionary<string, bool>
 
     public bool IsSatisfied { get; set; }
 
-    public void Assign(string variable, bool value)
+    public void Assign(ushort variable, bool value)
     {
-        if (!string.IsNullOrEmpty(variable))
-            this[variable] = value;
+        this[variable] = value;
     }
 
     public bool Verify(Cnf cnf)
@@ -29,10 +28,10 @@ public class Model : Dictionary<string, bool>
     public bool Verify(Formula formula)
     {
         return formula
-            .All(clause => clause.Any(literal => this[literal.Name] == literal.IsPositive));
+            .All(clause => clause.Any(literal => this[literal.Value] == literal.IsPositive));
     }
 
-    public void Fill(IEnumerable<string> variables)
+    public void Fill(IEnumerable<ushort> variables)
     {
         foreach (var variable in variables)
             if (!ContainsKey(variable))

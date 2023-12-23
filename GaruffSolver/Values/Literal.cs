@@ -2,34 +2,26 @@
 
 public struct Literal : IComparable<Literal>
 {
-    public string Name { get; }
+    public ushort Value { get; }
     public bool IsPositive { get; private init; }
 
-    public Literal(string name, bool isPositive)
+    public Literal(ushort name, bool isPositive)
     {
-        Name = name;
+        Value = name;
         IsPositive = isPositive;
     }
 
     public int CompareTo(Literal other)
     {
-        var nameComparison = string.Compare(Name, other.Name, StringComparison.Ordinal);
+        var nameComparison = Value.CompareTo(other.Value);
         if (nameComparison != 0) return nameComparison;
         return IsPositive.CompareTo(other.IsPositive);
     }
 
-    public int CompareTo(Literal? other)
-    {
-        if (ReferenceEquals(this, other)) return 0;
-        if (ReferenceEquals(null, other)) return 1;
-        var nameComparison = string.Compare(Name, other.Value.Name, StringComparison.Ordinal);
-        if (nameComparison != 0) return nameComparison;
-        return IsPositive.CompareTo(other.Value.IsPositive);
-    }
 
     public bool Equals(Literal? other)
     {
-        return other != null && string.Equals(Name, other.Value.Name, StringComparison.Ordinal) &&
+        return other != null && Value == other.Value.Value &&
                IsPositive == other.Value.IsPositive;
     }
 
@@ -38,23 +30,24 @@ public struct Literal : IComparable<Literal>
         return this with { IsPositive = !IsPositive };
     }
 
-    public static Literal Of(string name)
+    public static Literal Of(ushort name)
     {
         return new Literal(name, true);
     }
 
     public override string ToString()
     {
-        return (IsPositive ? "" : "-") + Name;
+        return (IsPositive ? "" : "-") + Value;
     }
 
 
-    public bool IsPure(IEnumerable<Literal> literals)
+    public bool IsPure(List<Literal> literals)
     {
+        
         var isPure = true;
         foreach (var literal in literals)
         {
-            if (Name != literal.Name) continue;
+            if (Value != literal.Value) continue;
             if (IsPositive == literal.IsPositive) continue;
             isPure = false;
             break;
@@ -67,7 +60,7 @@ public struct Literal : IComparable<Literal>
     {
         unchecked
         {
-            return Name.GetHashCode() * IsPositive.GetHashCode();
+            return Value.GetHashCode() * IsPositive.GetHashCode();
         }
     }
 

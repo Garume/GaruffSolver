@@ -31,10 +31,8 @@ public sealed class DpllUnitPropagator : IUnitPropagator
                 var emptyClause = new Clause();
 
                 foreach (var l in clause)
-                {
-                    var tempLiteral = literal.Value;
-                    if (!l.Equals(tempLiteral.Negative())) emptyClause.AddLast(l);
-                }
+                    if (!l.Equals(literal.Value.Negative()))
+                        emptyClause.AddLast(l);
 
                 _unitClauses.Add(emptyClause);
             }
@@ -48,6 +46,9 @@ public sealed class DpllUnitPropagator : IUnitPropagator
         }
 
         formula.Clear();
-        foreach (var clause in _unitClauses) formula.AddLast(clause);
+        foreach (var clause in _unitClauses)
+        {
+            formula.AddLast(clause);
+        }
     }
 }

@@ -70,15 +70,15 @@ public class GaruffSolver
             _builder.UnitPropagation(ref result, out var unitLiteral);
             _builder.PureLiteralElimination(ref result, out var pureLiterals);
 
-            if (unitLiteral?.Name != null)
+            if (unitLiteral?.Value != 0)
             {
-                model.Assign(unitLiteral.Value.Name, unitLiteral.Value.IsPositive);
+                model.Assign(unitLiteral.Value.Value, unitLiteral.Value.IsPositive);
                 isModified = true;
             }
 
             foreach (var pureLiteral in pureLiterals)
             {
-                model.Assign(pureLiteral.Name, pureLiteral.IsPositive);
+                model.Assign(pureLiteral.Value, pureLiteral.IsPositive);
                 isModified = true;
             }
         } while (isModified);

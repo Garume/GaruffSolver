@@ -13,6 +13,8 @@ public class Formula : LinkedList<Clause>, IEquatable<Formula>
             AddLast(new Clause(literals));
         }
     }
+    
+    private readonly List<Literal> _allLiterals = new();
 
     public Formula(IEnumerable<Clause> clauses) : base(clauses)
     {
@@ -25,14 +27,15 @@ public class Formula : LinkedList<Clause>, IEquatable<Formula>
 
     public HashSet<Literal> GetPureLiterals()
     {
-        var allLiterals = new List<Literal>();
-        foreach (var clause in this) allLiterals.AddRange(clause);
-        return allLiterals.Where(literal => literal.IsPure(allLiterals)).ToHashSet();
+        _allLiterals.Clear();
+        foreach (var clause in this) _allLiterals.AddRange(clause);
+        
+        return _allLiterals.Where(literal => literal.IsPure(_allLiterals)).ToHashSet();
     }
 
-    public IEnumerable<string> GetVariables()
+    public IEnumerable<ushort> GetVariables()
     {
-        return this.SelectMany(clause => clause).Select(literal => literal.Name).Distinct();
+        return this.SelectMany(clause => clause).Select(literal => literal.Value).Distinct();
     }
 
     public override bool Equals(object? obj)

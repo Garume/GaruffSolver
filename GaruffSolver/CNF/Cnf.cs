@@ -2,9 +2,9 @@
 
 namespace GaruffSolver.CNF;
 
-public record Cnf(int VariableCount, int ClausesCount, IEnumerable<Dictionary<string, bool>> Clauses)
+public record Cnf(int VariableCount, int ClausesCount, IEnumerable<Dictionary<ushort, bool>> Clauses)
 {
-    public IEnumerable<string> GetVariables()
+    public IEnumerable<ushort> GetVariables()
     {
         return Clauses.SelectMany(clause => clause.Keys).Distinct();
     }
@@ -18,7 +18,7 @@ public record Cnf(int VariableCount, int ClausesCount, IEnumerable<Dictionary<st
         sb.AppendLine($"ClausesCount: {ClausesCount}");
 
         foreach (var clause in Clauses)
-            sb.AppendLine(string.Join(" ", clause.Select(l => l.Value ? l.Key : "-" + l.Key)) + " 0");
+            sb.AppendLine(string.Join(" ", clause.Select(l => l.Value ? l.Key.ToString() : "-" + l.Key)) + " 0");
 
         return sb.ToString();
     }
