@@ -1,10 +1,16 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 	<s:String x:Key="/Default/Environment/Highlighting/HighlightingSourceSnapshotLocation/@EntryValue">C:\Users\Garume\AppData\Local\JetBrains\Rider2023.2\resharper-host\temp\Rider\vAny\CoverageData\_GaruffSolver.-489378641\Snapshot\snapshot.utdcvr</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=4c57f380_002Dce58_002D4fc9_002D9f6d_002De182b8fd6b2f/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Sudoku_ReturnTrueTest(&amp;quot;sudoku.cnf&amp;quot;)" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::264C6D8A-0D59-4B5A-9EA4-C6C8DE89B046::net7.0::GaruffSolver.Test.Custom.CustomTestWithTestCase.Sudoku_ReturnTrueTest("sudoku.cnf")&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::264C6D8A-0D59-4B5A-9EA4-C6C8DE89B046::net7.0::GaruffSolver.Test.DPLL.DpllSolverTestWithTestCase.ReadFileSolve_ReturnFalseTest&lt;/TestId&gt;&#xD;
-  &lt;/TestAncestor&gt;&#xD;
+  &lt;Or&gt;&#xD;
+    &lt;TestAncestor&gt;&#xD;
+      &lt;TestId&gt;NUnit3x::264C6D8A-0D59-4B5A-9EA4-C6C8DE89B046::net7.0::GaruffSolver.Test.Custom.CustomTestWithTestCase.Sudoku_ReturnTrueTest("sudoku.cnf")&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;NUnit3x::264C6D8A-0D59-4B5A-9EA4-C6C8DE89B046::net7.0::GaruffSolver.Test.DPLL.DpllSolverTestWithTestCase.ReadFileSolve_ReturnFalseTest&lt;/TestId&gt;&#xD;
+    &lt;/TestAncestor&gt;&#xD;
+    &lt;And&gt;&#xD;
+      &lt;Namespace&gt;GaruffSolver.Test.Values.DPLL&lt;/Namespace&gt;&#xD;
+      &lt;Project Location="C:\Users\Garume\Documents\Github\GaruffSolver\GaruffSolver.Test" Presentation="&amp;lt;GaruffSolver.Test&amp;gt;" /&gt;&#xD;
+    &lt;/And&gt;&#xD;
+  &lt;/Or&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	
 	

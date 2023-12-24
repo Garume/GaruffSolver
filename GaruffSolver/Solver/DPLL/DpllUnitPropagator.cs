@@ -48,7 +48,7 @@ public sealed class DpllUnitPropagator : IUnitPropagator
         formula.Clear();
         foreach (var clause in _unitClauses)
         {
-            formula.AddLast(clause);
+            formula.Add(clause);
         }
     }
 }

@@ -4,30 +4,35 @@ namespace GaruffSolver.Solver.DPLL;
 
 public sealed class DpllPureLiteralEliminator : IPureLiteralEliminator
 {
-    // メンバとしてのリスト
-    private readonly List<Literal> _allLiterals = new();
-    private readonly List<Clause> _newFormula = new();
-
     public PureLiteralEliminatorFactory PureLiteralElimination =>
-        (ref Formula formula, out HashSet<Literal> pureLiterals) =>
+        LiteralElimination;
+
+    private void LiteralElimination(ref Formula formula, out HashSet<Literal> pureLiterals)
+    {
+        pureLiterals = new HashSet<Literal>();
+
+        var literalAppearances = new Dictionary<ushort, (bool positive, bool negative, Literal literal)>();
+
+        // リテラルの出現を追跡
+        foreach (var clause in formula)
+        foreach (var literal in clause)
         {
-            pureLiterals = formula.GetPureLiterals();
+            if (!literalAppearances.TryGetValue(literal.Value, out var appearance)) appearance = (false, false, literal);
 
-            _newFormula.Clear();
-            foreach (var clause in formula)
+            if (literal.IsPositive)
+                appearance.positive = true;
+            else
+                appearance.negative = true;
+
+            literalAppearances[literal.Value] = appearance;
+        }
+
+        // 純リテラルを識別し、論理式を単純化
+        foreach (var (_, appearance) in literalAppearances)
+            if (appearance.positive != appearance.negative) // 純リテラル
             {
-                var containsPureLiteral = false;
-                foreach (var literal in pureLiterals)
-                    if (clause.Contains(literal))
-                    {
-                        containsPureLiteral = true;
-                        break;
-                    }
-
-                if (!containsPureLiteral) _newFormula.Add(clause);
+                pureLiterals.Add(appearance.literal);
+                formula.RemoveAll(clause => clause.Contains(appearance.literal));
             }
-
-            formula.Clear();
-            foreach (var clause in _newFormula) formula.AddLast(clause);
-        };
+    }
 }

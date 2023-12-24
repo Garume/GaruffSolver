@@ -40,22 +40,6 @@ public struct Literal : IComparable<Literal>
         return (IsPositive ? "" : "-") + Value;
     }
 
-
-    public bool IsPure(List<Literal> literals)
-    {
-        
-        var isPure = true;
-        foreach (var literal in literals)
-        {
-            if (Value != literal.Value) continue;
-            if (IsPositive == literal.IsPositive) continue;
-            isPure = false;
-            break;
-        }
-
-        return isPure;
-    }
-
     public override int GetHashCode()
     {
         unchecked
