@@ -5,6 +5,8 @@
     &lt;TestAncestor&gt;&#xD;
       &lt;TestId&gt;NUnit3x::264C6D8A-0D59-4B5A-9EA4-C6C8DE89B046::net7.0::GaruffSolver.Test.Custom.CustomTestWithTestCase.Sudoku_ReturnTrueTest("sudoku.cnf")&lt;/TestId&gt;&#xD;
       &lt;TestId&gt;NUnit3x::264C6D8A-0D59-4B5A-9EA4-C6C8DE89B046::net7.0::GaruffSolver.Test.DPLL.DpllSolverTestWithTestCase.ReadFileSolve_ReturnFalseTest&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;NUnit3x::264C6D8A-0D59-4B5A-9EA4-C6C8DE89B046::net7.0::GaruffSolver.Test.DPLL.DpllSolverTestWithTestCase.ReadFileSolve_ReturnTrueTest&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;NUnit3x::264C6D8A-0D59-4B5A-9EA4-C6C8DE89B046::net7.0::GaruffSolver.Test.CNF.CnfSimpleTest.ReadFileSolve_ReturnTrueTest&lt;/TestId&gt;&#xD;
     &lt;/TestAncestor&gt;&#xD;
     &lt;And&gt;&#xD;
       &lt;Namespace&gt;GaruffSolver.Test.Values.DPLL&lt;/Namespace&gt;&#xD;
